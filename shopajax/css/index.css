@@ -12,7 +12,9 @@ a {
   width: 100%;
   justify-content: space-between;
 }
-
+.navList:hover {
+  color: red;
+}
 .navBox a {
   display: inline-block;
   width: 100px;
