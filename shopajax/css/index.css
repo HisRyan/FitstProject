@@ -1,0 +1,68 @@
+/* 导航栏 */
+.navBox {
+  width: 1000px;
+  margin: auto;
+}
+a {
+  text-decoration: none;
+}
+.navBox .nav {
+  list-style: none;
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.navBox a {
+  display: inline-block;
+  width: 100px;
+  text-align: center;
+  height: 50px;
+  line-height: 50px;
+  background-color: orange;
+  cursor: pointer;
+}
+
+/* 商品列表 */
+.shop {
+  list-style: none;
+  width: 1000px;
+  margin: 100px auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+.shop .shopList {
+  width: 300px;
+  height: 500px;
+}
+.shopImg {
+  width: 300px;
+  height: 300px;
+}
+.shop .shopImg img {
+  width: 100%;
+  height: 100%;
+}
+.shopTitle {
+  text-align: center;
+}
+.shopPrice {
+  text-align: center;
+}
+.shopMore a {
+  display: block;
+  width: 100px;
+  height: 30px;
+  color: black;
+  border: 1px #ccc solid;
+  text-align: center;
+  line-height: 30px;
+}
+.shopMore {
+  margin: auto;
+  width: 100px;
+}
+.shopMore a:hover {
+  background-color: orange;
+}

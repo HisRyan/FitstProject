@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>商品界面</title>
+    <link rel="stylesheet" href="css/index.css">
+    <script src="/js/ajax.js"></script>
+</head>
+
+<body>
+    <div class="navBox">
+
+    </div>
+
+
+</body>
+<script>
+    var shopDOM = document.querySelector('.shop');
+    var navDOM = document.querySelector('.nav');
+    //商品界面
+    showList();
+    //生成商品界面
+    function showList(index) {
+        myajax({
+            "url": "/index.php",
+            "arg": {},
+            "success": function (re) {
+                if (re.state === true) {
+                    shopDOM.innerHTML = "";
+                    let tmp = '';
+                    for (let i = 0; i < re.data.length; i++) {
+
+                        tmp = `<li class="shopList"}>    
+                             <div class="shopImg"><img src="${re.data[i].img}"></div>
+                            <p class="shopTitle"> ${re.data[i].name} </p>  
+                            <p class="shopPrice"> ${re.data[i].price} </p>
+                            <div class="shopMore"><a  href="${re.data[i].url}" target="_blank">了解更多</a></div>                       
+                            </li>`;
+                    }
+                    shopDOM.innerHTML += tmp;
+                }
+
+            }
+        });
+    }
+</script>
+
+</html>
