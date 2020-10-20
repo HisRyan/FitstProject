@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>商品详情</title>
+    <script src="/js/ajax.js"></script>
+</head>
+<div class="shopTitle">
+    123
+</div>
+
+<body>
+    <script>
+        var titleDOM = document.querySelector('.shopTitle')
+        var currid = 1;
+        var shopage = getUrlArg();
+        currid = shopage.id;
+        console.log(currid);
+        showGood(currid);
+
+        function showGood(index) {
+            console.log(1);
+            console.log(index);
+            myajax({
+                "url": "/shop.php",
+                "arg": {
+                    "classid": index
+                },
+                "success": function (re) {
+                    if (re.state === true) {
+                        console.log(re.data);
+                        let tmp = `<li class="shopList"}>    
+                 <div class="shopImg"><img src="/${re.data[0].img}"></div>
+                <p class="shopTitle"> ${re.data[0].name} </p>  
+                <p class="shopPrice"> ${re.data[0].price} </p>
+                <div class="shopMore"><a  href="shop_page/good.html?id=${re.data[0].id}" target="_blank">了解更多</a></div>                       
+                </li>`;
+
+                        titleDOM.innerHTML += tmp;
+
+                    }
+
+                }
+            });
+        }
+
+        function getUrlArg() {
+            let args = {};
+
+            let url = window.location.href;
+
+            //判断是否有问号
+            if (url.includes("?")) {
+
+                let argStr = url.split("?")[1]; //"page=2&pagesize=5"
+
+                let argArr = argStr.split("&"); //["page=2","pagesize=5"]
+
+                for (let i = 0; i < argArr.length; i++) {
+
+                    //判断是否有等号
+                    if (argArr[i].includes("=")) {
+
+                        let argItem = argArr[i].split("=");
+
+                        //判断值是否为空
+
+                        let keyName = argItem[0];
+                        let keyValue = argItem[1];
+
+                        args[keyName] = keyValue; //关键语句
+
+                    }
+                }
+
+            }
+
+            return args;
+        }
+    </script>
+</body>
+
+</html>
