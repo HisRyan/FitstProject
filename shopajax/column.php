@@ -6,7 +6,7 @@ header("Content-type: text/html; charset=utf-8");
 
 
 //拼接查询语句
-$sql = "select * from lh_sort   "  ;
+$sql = "select * from lh_sort"  ;
 // .$classSQL.$readcountSQL." limit ".$startIndex.",".$pageSize
 //调试SQL语句
 // print_r($sql); exit();
