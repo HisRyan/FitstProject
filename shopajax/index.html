@@ -11,6 +11,7 @@
 
 <body>
     <div class="navBox">
+
         <ul class="nav">
 
         </ul>
@@ -87,7 +88,7 @@
                              <div class="shopImg"><img src="${re.data[i].img}"></div>
                             <p class="shopTitle"> ${re.data[i].name} </p>  
                             <p class="shopPrice"> ${re.data[i].price} </p>
-                            <div class="shopMore"><a  href="${re.data[i].url}" target="_blank">了解更多</a></div>                       
+                            <div class="shopMore"><a  href="shop_page/good.html?id=${re.data[i].id}" target="_blank">了解更多</a></div>                       
                             </li>`;
                     }
                     shopDOM.innerHTML += tmp;
