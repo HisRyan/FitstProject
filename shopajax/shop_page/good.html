@@ -8,7 +8,6 @@
     <script src="/js/ajax.js"></script>
 </head>
 <div class="shopTitle">
-    123
 </div>
 
 <body>
@@ -30,18 +29,13 @@
                 },
                 "success": function (re) {
                     if (re.state === true) {
-                        console.log(re.data);
                         let tmp = `<li class="shopList"}>    
                  <div class="shopImg"><img src="/${re.data[0].img}"></div>
                 <p class="shopTitle"> ${re.data[0].name} </p>  
-                <p class="shopPrice"> ${re.data[0].price} </p>
-                <div class="shopMore"><a  href="shop_page/good.html?id=${re.data[0].id}" target="_blank">了解更多</a></div>                       
+                <p class="shopPrice"> ${re.data[0].price} </p>                              
                 </li>`;
-
                         titleDOM.innerHTML += tmp;
-
                     }
-
                 }
             });
         }
