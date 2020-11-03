@@ -6,13 +6,13 @@ header("Content-type: text/html; charset=utf-8");
 
 
 //拼接查询语句
-$sql = "select * from lh_sort"  ;
+$sql = "select * from lh_sort  "  ;
 // .$classSQL.$readcountSQL." limit ".$startIndex.",".$pageSize
 //调试SQL语句
 // print_r($sql); exit();
 
 //数据库实例
-$dbc = new MySQLi("127.0.0.1","root","root","test");
+$dbc = new MySQLi("192.168.0.186","root","root","test");
 
 //查询编码设置
 mysqli_query($dbc, "set names utf8");
