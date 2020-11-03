@@ -19,7 +19,7 @@ $sql = "select * from lh_good where id=$classid"  ;
 // print_r($sql); exit();
 
 //数据库实例
-$dbc = new MySQLi("127.0.0.1","root","root","test");
+$dbc = new MySQLi("192.168.0.186","root","root","test");
 
 //查询编码设置
 mysqli_query($dbc, "set names utf8");
