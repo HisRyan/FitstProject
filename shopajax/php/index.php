@@ -27,22 +27,23 @@ if(isset($_GET['readcount'])){
 $startIndex = ($page-1) * $pageSize;
 
 //拼接查询语句
-$sql = "select * from lh_good where lh_good.`column`=$classid"  ;
+$sql = "select *from lh_good where lh_good.`column`=$classid"  ;
+$sql1="select *from lh_wish where goodid=$classid";
 // .$classSQL.$readcountSQL." limit ".$startIndex.",".$pageSize
 //调试SQL语句
 // print_r($sql); exit();
 
 //数据库实例
-$dbc = new MySQLi("127.0.0.1","root","root","test");
+$dbc = new MySQLi("192.168.0.186","root","root","test");
 
 //查询编码设置
 mysqli_query($dbc, "set names utf8");
 
 //执行查询语句 query函数
 $result = $dbc->query($sql);
-
+$retch = $dbc->query($sql1);
 $arr = array();//定义数组
-
+$rows=$retch->num_rows;
 
 while($arr_tmp = $result->fetch_assoc()){
 
@@ -50,23 +51,18 @@ while($arr_tmp = $result->fetch_assoc()){
 
 }
 
-// // 查询总数 /////////////////////////////////////////////////////////////
-// $total = 0;
-// //执行查询语句
-// $resultTotal = $dbc->query("select count(*) as total from student ");
-// // .$classSQL.$readcountSQL." "
-// $arrTotal = array();
-// while($arr_tmp = $resultTotal->fetch_assoc()){
-//     $arrTotal[] = $arr_tmp; //添加到数组$arr;
-// }
-// $total = $arrTotal[0]["total"];
-
+if($rows){
+    $id=1;
+}
+else{
+    $id=0;
+}
 
 
 
 $re = array(
     "state"=>true,
-    "code"=>1,
+    "code"=>$id,
     "msg"=>'成功',
     "data" => $arr,
     // "total"=>$total
