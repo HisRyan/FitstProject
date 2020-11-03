@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>心愿单</title>
+    <script src="/js/ajax.js"></script>
+    <link rel="stylesheet" href="/css/wish.css" />
+  </head>
+  <body>
+    <ul class="wishBox"></ul>
+  </body>
+  <script>
+    var wishBoxDOM = document.querySelector(".wishBox");
+    //显示心愿单
+    myajax({
+      url: "/php/wishshow.php",
+      arg: {},
+      success: function (re) {
+        //心愿单显示
+        showGood(re);
+
+        //删除功能
+        del();
+
+        //显示详情
+        // show();
+
+        //添加到购物车
+        addCar();
+      },
+    });
+
+    //界面显示
+    function showGood(option) {
+      var list = "";
+      for (var i = 0; i < option.data.length; i++) {
+        list += `<li class="wishList" dataid=${option.data[i].goodid}>
+        <div class="left">
+        <img src="/${option.data[i].img}" alt="" />
+        </div>
+        <div class="right">
+        <div class="good">
+        <p class=name>商品名称：<span>${option.data[i].name}</span></p>
+        <p class=price>价钱：<span>${option.data[i].price}</span></p>
+        </div>
+        <div class="solve">
+         <div class="car but">加入购物车</div>
+         <div class="del but">删除</div>
+        </div>
+        </div>
+      </li>`;
+      }
+      wishBoxDOM.innerHTML = list;
+    }
+
+    //删除功能
+    function del() {
+      var delbutDOM = document.querySelectorAll(".del");
+      var listDOM = document.querySelectorAll(".wishList");
+      for (var i = 0; i < delbutDOM.length; i++) {
+        delbutDOM[i].addEventListener("click", function () {
+          let id = this.parentNode.parentNode.parentNode.getAttribute("dataid");
+          this.parentNode.parentNode.parentNode.parentNode.removeChild(
+            this.parentNode.parentNode.parentNode
+          );
+          myajax({
+            url: "/php/wishdel.php",
+            arg: {
+              goodid: id,
+            },
+            success: function (re) {},
+          });
+        });
+      }
+    }
+
+    //显示详情
+    function show() {
+      var listDOM = document.querySelectorAll(".wishList");
+      for (var i = 0; i < listDOM.length; i++) {
+        listDOM[i].addEventListener("click", function () {
+          let id = this.getAttribute("dataid");
+          window.location.href = `good.html?id=${id}`;
+        });
+      }
+    }
+  </script>
+</html>
