@@ -1,30 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
+  <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>商品界面</title>
-    <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="css/index.css" />
     <script src="js/ajax.js"></script>
-</head>
+  </head>
 
-<body>
+  <body>
     <div class="navBox">
-
-        <ul class="nav">
-
-        </ul>
+      <ul class="nav"></ul>
     </div>
-    <ul class="shop">
-
-
-    </ul>
-
-</body>
-<script>
-    var shopDOM = document.querySelector('.shop');
-    var navDOM = document.querySelector('.nav');
+    <ul class="shop"></ul>
+    <div class="city">
+      <div class="collect"><a href="">购物车</a></div>
+      <div class="collect"><a href="/shop_page/wish.html">收藏中心</a></div>
+      <div class="collect"><a href="">我的订单</a></div>
+    </div>
+  </body>
+  <script>
+    var shopDOM = document.querySelector(".shop");
+    var navDOM = document.querySelector(".nav");
 
     var page = 1;
     var pageSize = 3;
@@ -37,66 +34,93 @@
     //商品界面
     showList(index);
 
-
     //导航函数
     function addnav() {
-        let navListDom = document.querySelectorAll(".navBox .navList");
-        console.log(navListDom.length);
-        for (var i = 0; i < navListDom.length; i++) {
-            navListDom[i].addEventListener('mouseover', function () {
-                let columnId = this.getAttribute("shop-id");
-                showList(columnId)
-            })
-        }
+      let navListDom = document.querySelectorAll(".navBox .navList");
+      for (var i = 0; i < navListDom.length; i++) {
+        navListDom[i].addEventListener("mouseover", function () {
+          let columnId = this.getAttribute("shop-id");
+          showList(columnId);
+        });
+      }
     }
 
     //生成导航栏
     function showNav() {
-        myajax({
-            "url": "column.php",
-            "arg": {},
-            "success": function (re) {
-                if (re.state === true) {
-                    let tmp = '';
-                    for (let i = 0; i < re.data.length; i++) {
-                        tmp +=
-                            `<li class="navList" shop-id="${re.data[i].id}"><a>${re.data[i].column}</a></li>`;
-                    }
-                    navDOM.innerHTML += tmp;
-                    addnav();
-                }
-
+      myajax({
+        url: "php/column.php",
+        arg: {},
+        success: function (re) {
+          if (re.state === true) {
+            let tmp = "";
+            for (let i = 0; i < re.data.length; i++) {
+              tmp += `<li class="navList" shop-id="${re.data[i].id}"><a>${re.data[i].column}</a></li>`;
             }
-        });
+            navDOM.innerHTML += tmp;
+            addnav();
+          }
+        },
+      });
     }
     //生成商品界面
     function showList(index) {
-        console.log(index);
-        myajax({
-            "url": "index.php",
-            "arg": {
-                "page": page,
-                "pageSize": pageSize,
-                "classid": index
-            },
-            "success": function (re) {
-                if (re.state === true) {
-                    shopDOM.innerHTML = "";
-                    let tmp = '';
-                    for (let i = 0; i < re.data.length; i++) {
-                        tmp += `<li class="shopList"}>    
-                             <div class="shopImg"><img src="${re.data[i].img}"></div>
-                            <p class="shopTitle"> ${re.data[i].name} </p>  
-                            <p class="shopPrice"> ${re.data[i].price} </p>
-                            <div class="shopMore"><a  href="shop_page/good.html?id=${re.data[i].id}" target="_blank">了解更多</a></div>                       
-                            </li>`;
-                    }
-                    shopDOM.innerHTML += tmp;
-                }
-
+      console.log(index);
+      myajax({
+        url: "php/index.php",
+        arg: {
+          page: page,
+          pageSize: pageSize,
+          classid: index,
+        },
+        success: function (re) {
+          if (re.state === true) {
+            if (re.code == 0) {
+              var imgsrc = "image/funny.png";
+              var flag = 0;
+            } else {
+              var imgsrc = "image/fnsuccess.png";
+              var flag = 1;
             }
-        });
-    }
-</script>
+            console.log(imgsrc);
+            shopDOM.innerHTML = "";
+            let tmp = `<li class="shopList"}>    
+                             <div class="shopImg"><img src="${re.data[0].img}">
+                                <div class="hide">
+                             <img class="buynow" src="image/buynow.png" alt="">
+                             <img class="nobuycar"    src="image/nobuycar.png" alt="">
+                             <img class="funny"  src="${imgsrc}" alt="">
+                                </div>                     </div>
+                            <p class="shopTitle"> ${re.data[0].name} </p>  
+                            <p class="shopPrice"> ${re.data[0].price} </p>
+                             <div class="shopMore"><a  href="shop_page/good.html?id=${re.data[0].id}" target="_blank">了解更多</a></div> 
+                        
+                        </li>`;
 
+            shopDOM.innerHTML += tmp;
+            var funnyDOM = document.querySelector(".funny");
+            funnyDOM.addEventListener("click", function () {
+              if (flag == 0) {
+                this.src = "image/fnsuccess.png";
+                flag = 1;
+              } else {
+                flag = 0;
+                this.src = "image/funny.png";
+              }
+              myajax({
+                url: "/php/wish.php",
+                arg: {
+                  id: re.data[0].id,
+                },
+                success: function (re) {
+                  if (re) {
+                  } else {
+                  }
+                },
+              });
+            });
+          }
+        },
+      });
+    }
+  </script>
 </html>
